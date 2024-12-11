@@ -57,7 +57,7 @@ class Mailing(models.Model):
     is_published = models.BooleanField(default=True, verbose_name="Опубликовано", help_text="Отметьте для активации")
 
     def __str__(self):
-        return f"{self.message_id.title}"
+        return f"{self.message_id}"
 
     def get_clients(self):
         return ", ".join([client.email for client in self.client_list.all()])

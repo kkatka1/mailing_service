@@ -1,34 +1,28 @@
-{% extends 'mailing/base.html' %}
-
+{% extends "mailing/base.html" %}
 {% block content %}
-    <div class="card mb-4 box-shadow">
-        <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Free</h4>
-        </div>
-        <div class="card-body">
-            <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-                <li>10 users included</li>
-                <li>2 GB of storage</li>
-                <li>Email support</li>
-                <li>Help center access</li>
-            </ul>
-            <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-        </div>
-    </div>
-    <div class="card mb-4 box-shadow">
-        <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Pro</h4>
-        </div>
-        <div class="card-body">
-            <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-                <li>20 users included</li>
-                <li>10 GB of storage</li>
-                <li>Priority email support</li>
-                <li>Help center access</li>
-            </ul>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-        </div>
-    </div>
+<h1>Список рассылок</h1>
+<a href="{% url 'mailing:mailing_create' %}" class="btn btn-primary mb-3">Создать новую рассылку</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Сообщение</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mailing in mailings %}
+        <tr>
+            <td>{{ mailing.date_of_first_dispatch }}</td>
+            <td>{{ mailing.get_status_display }}</td>
+            <td>{{ mailing.message_id }}</td>
+            <td>
+                <a href="{% url 'mailing:mailing_update' mailing.pk %}" class="btn btn-warning btn-sm">Изменить</a>
+                <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

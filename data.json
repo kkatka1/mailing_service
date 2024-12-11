@@ -1,0 +1,1 @@
+[{"model": "mailing.client", "pk": 1, "fields": {"fullname": "Екатерина", "email": "kkatka.el@gmail.com", "phone": "+7999888777", "comment": "нет", "country": "Россия", "timezone": "20:00"}}, {"model": "mailing.message", "pk": 1, "fields": {"topic": "Привет", "body": "Купи меня"}}]
