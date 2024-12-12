@@ -6,51 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <title>{% if title %}{{ title }} - {% endif %}Управление рассылками</title>
+    <title>{% if title %}{{ title }} - {% endif %}</title>
 
     <!-- Bootstrap core CSS -->
      <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/pricing.css' %}" rel="stylesheet">
+    <link href="{% static 'css/album.css' %}" rel="stylesheet">
   </head>
 
   <body>
-
-    <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <p class="text-muted">Отправляйте рассылки, автоматизируйте маркетинг и увеличивайте продажи Всё, что нужно для коммуникации с клиентами и роста бизнеса — в одной платформе</p>
-            </div>
-            {% include 'includes/inc_menu.html' %}           
-          </div>
-        </div>
-      </div>
-      <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-           
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+    
+  {% include 'includes/inc_menu.html' %}          
+          
 
     <main role="main">
 
       <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading"> Управление рассылками </h1>
-          <p class="lead text-muted"> Cервис управления рассылками, администрирования и получения статистики.</p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-          </p>
+            <h1 class="jumbotron-heading"> 
+                {% block page_title %} сервис управления рассылками{% endblock %}
+            </h1>
+          <p class="lead text-muted"> Отправляйте рассылки, автоматизируйте маркетинг и увеличивайте продажи.</p>
+          <p>          
         </div>
       </section>
 
@@ -58,21 +36,10 @@
         <div class="container">
 
           <div class="row">          
-            {% for object in object_list %}
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">                
-                <div class="card-body">
-                    <p class="card-text">{{ object }}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
+            
+            {% block content %}
+            {% endblock %}
+            
           </div>
         </div>
       </div>
@@ -88,19 +55,3 @@
       </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/holder.min.js' %}"></script>
-    <script>
-      Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-      });
-    </script>
-  </body>
-</html>

@@ -1,5 +1,5 @@
-{% extends "mailing/base.html" %}
-{% block content %}
+{% extends "mailing/home.html" %}
+
 <h1>Список рассылок</h1>
 <a href="{% url 'mailing:mailing_create' %}" class="btn btn-primary mb-3">Создать новую рассылку</a>
 <table class="table">
@@ -25,4 +25,3 @@
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}

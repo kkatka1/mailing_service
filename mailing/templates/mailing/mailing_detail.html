@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'mailing/home.html' %}
 {% block content %}
   <h1>Детали рассылки</h1>
   <p><strong>Название:</strong> {{ mailing.name }}</p>
   <p><strong>Описание:</strong> {{ mailing.description }}</p>
-  <p><strong>Дата начала:</strong> {{ mailing.start_date }}</p>
+  <p><strong>Дата начала:</strong> {{ mailing.created_at }}</p>
   <p><strong>Дата окончания:</strong> {{ mailing.end_date }}</p>
   <p><strong>Статус:</strong> {{ mailing.status }}</p>
   <p><strong>Клиенты:</strong></p>

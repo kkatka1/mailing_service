@@ -1,14 +1,24 @@
-<div class="col-sm-4 offset-md-1 py-4">
-    <h4 class="text-white">Меню</h4>
-    <ul class="list-unstyled">
-        <li><a href="#" class="text-white">Главная</a></li>
-        <li><a href="#" class="text-white">Список рассылок</a></li>
-        <li><a href="#" class="text-white">Создать рассылку</a></li>
-        <li><a href="#" class="text-white">Список клиентов</a></li>
-        <li><a href="#" class="text-white">Создать клиента</a></li>
-        <li><a href="#" class="text-white">Список сообщений</a></li>
-        <li><a href="#" class="text-white">Создать сообщение</a></li>
-        <li><a href="#" class="text-white">Блог</a></li>
-        <li><a href="#" class="text-white">Администрирование</a></li>
-    </ul>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">Главная</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+        
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">     
+         <a class="nav-link active" aria-current="page" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+          <a class="nav-link" href="#">Сообщения</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'users_list' %}active{% endif %}">
+          <a class="nav-link" href="#">Пользователи</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}">
+          <a class="nav-link" href="#">Блог</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

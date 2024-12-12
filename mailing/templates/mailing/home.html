@@ -1,0 +1,32 @@
+{% extends "mailing/base.html" %}
+{% block content %}
+<div class="container text-center">
+    
+  <div class="container marketing">
+    <div class="row">
+      <div class="col-lg-4">
+        <h2 class="fw-normal">Всего рассылок:</h2>
+        <p>{{ total_mailings }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_list' %}">Посмотреть детали &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <h2 class="fw-normal">Активных рассылок:</h2>
+        <p>{{ active_mailings }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_list' %}">Посмотреть детали &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <h2 class="fw-normal">Уникальных клиентов:</h2>
+        <p>{{ unique_clients }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_list' %}">Посмотреть детали &raquo;</a></p>
+      </div>
+    </div>
+  </div>
+
+    <h2 class="mt-5"> Cтатьи в тему</h2>
+    <ul>
+        {% for blog in random_posts %}
+            <li><a href="{% url 'blog:view' body.id %}">{{ blog.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -22,6 +22,6 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mailing/', include('mailing.urls', namespace='mailing')),
+    path('', include('mailing.urls', namespace='mailing')),
     path('', RedirectView.as_view(url='mailing/')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
