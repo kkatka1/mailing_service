@@ -1,16 +1,40 @@
 {% extends 'mailing/home.html' %}
+
 {% block content %}
   <h1>Детали рассылки</h1>
-  <p><strong>Название:</strong> {{ mailing.name }}</p>
-  <p><strong>Описание:</strong> {{ mailing.description }}</p>
-  <p><strong>Дата начала:</strong> {{ mailing.created_at }}</p>
-  <p><strong>Дата окончания:</strong> {{ mailing.end_date }}</p>
-  <p><strong>Статус:</strong> {{ mailing.status }}</p>
-  <p><strong>Клиенты:</strong></p>
-  <ul>
-    {% for client in mailing.clients.all %}
-      <li>{{ client.fullname }} ({{ client.email }})</li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'mailing-list' %}" class="btn btn-secondary">Назад к списку рассылок</a>
+
+  {% if mailing %}
+    <div style="font-family: Arial, sans-serif; font-size: 18px;">
+        <div style="margin-bottom: 15px;">
+            <strong>Название рассылки:</strong> {{ mailing.message_id.topic }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Дата первой отправки:</strong> {{ mailing.date_of_first_dispatch }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Периодичность:</strong> {{ mailing.get_periodicity_display }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Статус:</strong> {{ mailing.get_status_display }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Дата создания:</strong> {{ mailing.created_at }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Дата изменения:</strong> {{ mailing.update_at }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            <strong>Клиенты:</strong>
+            <ul style="margin-top: 5px; padding-left: 20px;">
+              {% for client in mailing.client_list.all %}
+                <li>{{ client.fullname }} ({{ client.email }})</li>
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <a href="{% url 'mailing:mailing_list' %}" class="btn btn-secondary" style="margin-top: 20px;">Назад к списку рассылок</a>
+  {% else %}
+    <p style="font-size: 24px; font-weight: bold; color: red; text-align: center; margin-top: 30px;">Рассылок нет</p>
+  {% endif %}
 {% endblock %}

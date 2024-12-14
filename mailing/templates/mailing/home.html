@@ -1,8 +1,7 @@
 {% extends "mailing/base.html" %}
 {% block content %}
-<div class="container text-center">
-    
-  <div class="container marketing">
+<div class="container-fluid vh-100 d-flex flex-column justify-content-start">
+  <div class="container marketing py-5">
     <div class="row">
       <div class="col-lg-4">
         <h2 class="fw-normal">Всего рассылок:</h2>
@@ -17,16 +16,27 @@
       <div class="col-lg-4">
         <h2 class="fw-normal">Уникальных клиентов:</h2>
         <p>{{ unique_clients }}</p>
-        <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_list' %}">Посмотреть детали &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'mailing:client_list' %}">Посмотреть детали &raquo;</a></p>
       </div>
     </div>
   </div>
 
-    <h2 class="mt-5"> Cтатьи в тему</h2>
-    <ul>
-        {% for blog in random_posts %}
-            <li><a href="{% url 'blog:view' body.id %}">{{ blog.title }}</a></li>
-        {% endfor %}
-    </ul>
+  <h2 class="mt-5 text-center" style="color: #ff5733;">Статьи в тему</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for post in random_posts %}
+    <div class="col">
+      <div class="card h-100">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+          <a href="{% url 'blog:view' post.pk %}" class="btn btn-primary">Читать далее</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

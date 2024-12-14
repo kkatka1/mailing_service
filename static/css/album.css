@@ -60,3 +60,54 @@ footer p {
     border-radius: 5px; /* Закругленные углы */
 }
 
+.section-title {
+  text-align: center;
+  color: #ff5733; /* Замените на желаемый цвет */
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+.btn-transparent {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid #007bff; /* Добавляем цветную рамку */
+  color: #007bff; /* Цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы для фона и текста */
+}
+
+.btn-transparent:hover {
+  background-color: #007bff; /* Цвет фона при наведении */
+  color: white; /* Цвет текста при наведении */
+}
+
+.btn-delete {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid red; /* Красная рамка */
+  color: red; /* Красный цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+.btn-delete:hover {
+  background-color: red; /* Красный фон при наведении */
+  color: white; /* Белый цвет текста при наведении */
+}
+
+.btn-message {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid green; /* Зеленая рамка */
+  color: green; /* Зеленый цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+.btn-message:hover {
+  background-color: green; /* Зеленый фон при наведении */
+  color: white; /* Белый цвет текста при наведении */
+}

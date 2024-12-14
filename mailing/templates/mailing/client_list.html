@@ -1,0 +1,72 @@
+{% extends 'mailing/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="container py-5">
+    <!-- Заголовок и кнопка создания клиента -->
+    <div class="text-center mb-4">
+        <h1 class="display-4">Клиенты</h1>
+        <a href="{% url 'mailing:client_create' %}" class="btn btn-message btn-sm">Создать клиента</a>
+    </div>
+
+    <!-- Таблица клиентов -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Почта</th>
+                    <th>Имя</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.fullname }}</td>
+                    <td>
+                        <div class="btn-group">
+                            {% if user.is_authenticated %}
+                                {% if perms.mailing.client_detail %}
+                                    <a class="btn btn-transparent" href="{% url 'mailing:client_detail' client.pk %}">Посмотреть</a>
+                                {% endif %}
+                                {% if perms.mailing.change_client %}
+                                    <a class="btn btn-transparent" href="{% url 'mailing:client_update' client.pk %}">Изменить</a>
+                                {% endif %}
+                                {% if perms.mailing.delete_client %}
+                                    <a class="btn btn-delete btn-sm" href="{% url 'mailing:client_delete' client.pk %}">Удалить</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Клиенты отсутствуют</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Пагинация -->
+    <div class="d-flex justify-content-center">
+        {% if is_paginated %}
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">В начало</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+                    {% endif %}
+                    <li class="page-item disabled"><span class="page-link">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span></li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">В конец</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

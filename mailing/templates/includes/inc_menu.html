@@ -1,23 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">Главная</a>
+  <div class="container">    
+      
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
         
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav">     
-         <a class="nav-link active" aria-current="page" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
+      <ul class="navbar-nav">  
+        <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+         <a class="nav-link" href="{% url 'mailing:home' %}">Главная</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
-          <a class="nav-link" href="#">Сообщения</a>
+        <li class="nav-item {% if request.resolver_match.url_name == 'mailing' %}">active{% endif %}">
+         <a class="nav-link" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'users_list' %}active{% endif %}">
-          <a class="nav-link" href="#">Пользователи</a>
+        <li class="nav-item {% if request.resolver_match.url_name == 'messages' %}">active{% endif %}">
+          <a class="nav-link" href="{% url 'mailing:message_list' %}">Сообщения</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}">
-          <a class="nav-link" href="#">Блог</a>
+        <li class="nav-item {% if request.resolver_match.url_name == 'client' %}">active{% endif %}">
+          <a class="nav-link" href="{% url 'mailing:client_list' %}">Клиенты</a>
         </li>
+       
       </ul>
     </div>
   </div>

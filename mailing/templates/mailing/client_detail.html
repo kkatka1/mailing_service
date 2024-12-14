@@ -1,0 +1,17 @@
+{% extends 'mailing/home.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 600px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Детали клиента</h3>
+            <p class="card-text"><strong>Почта:</strong> {{ client.email }}</p>
+            <p class="card-text"><strong>Имя:</strong> {{ client.fullname }}</p>
+            <p class="card-text"><strong>Примечание:</strong> {{ client.comment }}</p>
+            <div class="d-flex justify-content-center mt-4">
+                <a class="btn btn-secondary" href="{% url 'mailing:client_list' %}">Вернуться</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,12 +7,12 @@ from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
-from blog.models import Blog
+from blog.models import Post
 
 
 # Create your views here.
-class BlogCreateView(CreateView):
-    model = Blog
+class PostCreateView(CreateView):
+    model = Post
     fields = ("title", "body", "created_at", 'image',)
     success_url = reverse_lazy("blog:list")
 
@@ -23,16 +23,16 @@ class BlogCreateView(CreateView):
             new_blog.save()
         return super().form_valid(form)
 
-class BlogListView(ListView):
-    model = Blog
+class PostListView(ListView):
+    model = Post
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_published=True)
         return queryset
 
-class BlogDetailView(DetailView):
-    model = Blog
+class PostDetailView(DetailView):
+    model = Post
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -40,8 +40,8 @@ class BlogDetailView(DetailView):
         self.object.save()
         return self.object
 
-class BlogUpdateView(UpdateView):
-    model = Blog
+class PostUpdateView(UpdateView):
+    model = Post
     fields = ("title", "body", "created_at", 'image',)
     #success_url = reverse_lazy("blog:list")
 
@@ -55,13 +55,13 @@ class BlogUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('blog:view', args=[self.kwargs.get('pk')])
 
-class BlogDeleteView(DeleteView):
-    model = Blog
+class PostDeleteView(DeleteView):
+    model = Post
     success_url = reverse_lazy('blog:list')
 
 
 def toggle_activity(request, pk):
-    blog_item = get_object_or_404(Blog, pk=pk)
+    blog_item = get_object_or_404(Post, pk=pk)
     if blog_item.is_published:
         blog_item.is_published = False
     else:

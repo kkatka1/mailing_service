@@ -1,6 +1,6 @@
 from django.db import models
 
-class Blog(models.Model):
+class Post(models.Model):
     title = models.CharField(max_length=150, verbose_name="заголовок")
     body = models.TextField(verbose_name="содержимое")
     image = models.ImageField(

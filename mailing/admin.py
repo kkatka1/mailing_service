@@ -9,7 +9,6 @@ class ClientAdmin(admin.ModelAdmin):
     list_filter = ('fullname', 'email',)
     search_fields = ('fullname', 'email',)
 
-
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('id', 'topic', 'body',)
