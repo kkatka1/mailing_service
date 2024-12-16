@@ -5,32 +5,64 @@ from mailing.models import Client, Message, Mailing, Attempt
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'fullname','email', 'phone',  'comment', 'country', 'timezone',)
-    list_filter = ('fullname', 'email',)
-    search_fields = ('fullname', 'email',)
+    list_display = (
+        "id",
+        "fullname",
+        "email",
+        "phone",
+        "comment",
+        "country",
+        "timezone",
+    )
+    list_filter = (
+        "fullname",
+        "email",
+    )
+    search_fields = (
+        "fullname",
+        "email",
+    )
+
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'topic', 'body',)
-    list_filter = ('id',)
-    search_fields = ('topic',)
+    list_display = (
+        "id",
+        "topic",
+        "body",
+    )
+    list_filter = ("id",)
+    search_fields = ("topic",)
 
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date_of_first_dispatch','periodicity', 'status',  'created_at', 'update_at', 'message_id',
-                    'is_published', Mailing.get_clients, )
-    list_filter = ('message_id', 'status')
-    search_fields = ('periodicity',)
+    list_display = (
+        "id",
+        "date_of_first_dispatch",
+        "periodicity",
+        "status",
+        "created_at",
+        "update_at",
+        "message_id",
+        "is_published",
+        Mailing.get_clients,
+    )
+    list_filter = ("message_id", "status")
+    search_fields = ("periodicity",)
 
 
 @admin.register(Attempt)
 class AttemptAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date_last_attempt', 'status', 'server_response', 'mailing_id', )
-    list_filter = ('status',)
-    search_fields = ('date_last_attempt', 'server_response',)
-
-
-
-
-
+    list_display = (
+        "id",
+        "date_last_attempt",
+        "status",
+        "server_response",
+        "mailing_id",
+    )
+    list_filter = ("status",)
+    search_fields = (
+        "date_last_attempt",
+        "server_response",
+    )

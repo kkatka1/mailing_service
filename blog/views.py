@@ -5,7 +5,13 @@ from contextlib import redirect_stderr
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 
 from blog.models import Post
 
@@ -13,7 +19,12 @@ from blog.models import Post
 # Create your views here.
 class PostCreateView(CreateView):
     model = Post
-    fields = ("title", "body", "created_at", 'image',)
+    fields = (
+        "title",
+        "body",
+        "created_at",
+        "image",
+    )
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
@@ -23,6 +34,7 @@ class PostCreateView(CreateView):
             new_blog.save()
         return super().form_valid(form)
 
+
 class PostListView(ListView):
     model = Post
 
@@ -30,6 +42,7 @@ class PostListView(ListView):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_published=True)
         return queryset
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -40,10 +53,16 @@ class PostDetailView(DetailView):
         self.object.save()
         return self.object
 
+
 class PostUpdateView(UpdateView):
     model = Post
-    fields = ("title", "body", "created_at", 'image',)
-    #success_url = reverse_lazy("blog:list")
+    fields = (
+        "title",
+        "body",
+        "created_at",
+        "image",
+    )
+    # success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -53,11 +72,12 @@ class PostUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:view', args=[self.kwargs.get('pk')])
+        return reverse("blog:view", args=[self.kwargs.get("pk")])
+
 
 class PostDeleteView(DeleteView):
     model = Post
-    success_url = reverse_lazy('blog:list')
+    success_url = reverse_lazy("blog:list")
 
 
 def toggle_activity(request, pk):
@@ -69,4 +89,4 @@ def toggle_activity(request, pk):
 
     blog_item.save()
 
-    return redirect(reverse('blog:list'))
+    return redirect(reverse("blog:list"))

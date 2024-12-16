@@ -1,1 +1,86 @@
-[{"model": "mailing.client", "pk": 1, "fields": {"fullname": "Екатерина", "email": "kkatka.el@gmail.com", "phone": "+7999888777", "comment": "нет", "country": "Россия", "timezone": "20:00"}}, {"model": "mailing.message", "pk": 1, "fields": {"topic": "Привет", "body": "Купи меня"}}]
+[
+  {
+    "model": "mailing.client",
+    "pk": 2,
+    "fields": {
+      "fullname": "Иван Иван Иванович",
+      "email": "kkatka@mail.ru",
+      "phone": "8988147894",
+      "comment": "sgfsgdfgdsfhg",
+      "country": "Россия",
+      "timezone": "12.12"
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 3,
+    "fields": {
+      "fullname": "Петрова Ирина Петровна",
+      "email": "kkatka.el@gmail.com",
+      "phone": "78978979879",
+      "comment": "dfsdfsdfsd",
+      "country": "dfsdfsdfsd",
+      "timezone": "12/13"
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 4,
+    "fields": {
+      "fullname": "Сидоров Иван",
+      "email": "dtg@mail.ru",
+      "phone": "8797975451",
+      "comment": "Не дюбит чтобы звонили",
+      "country": "Россия",
+      "timezone": "12.12"
+    }
+  },
+  {
+    "model": "mailing.message",
+    "pk": 4,
+    "fields": {
+      "topic": "1",
+      "body": "Привет"
+    }
+  },
+  {
+    "model": "mailing.message",
+    "pk": 5,
+    "fields": {
+      "topic": "пппп",
+      "body": "вапро"
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 4,
+    "fields": {
+      "date_of_first_dispatch": "2024-12-15T00:00:00Z",
+      "periodicity": "1",
+      "status": "A",
+      "created_at": "2024-12-13T21:40:48.064Z",
+      "update_at": "2024-12-13T21:40:48.064Z",
+      "message_id": 5,
+      "is_published": true,
+      "client_list": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 5,
+    "fields": {
+      "date_of_first_dispatch": "2024-12-15T00:00:00Z",
+      "periodicity": "1",
+      "status": "A",
+      "created_at": "2024-12-14T18:40:00.146Z",
+      "update_at": "2024-12-14T18:40:00.146Z",
+      "message_id": 4,
+      "is_published": true,
+      "client_list": [
+        2
+      ]
+    }
+  }
+]

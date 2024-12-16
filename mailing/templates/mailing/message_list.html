@@ -25,7 +25,7 @@
                             <a class="btn btn-transparent btn-sm" href="{% url 'mailing:message_update' message.pk %}" role="button">Изменить</a>
                             {% endif %}
                             {% if perms.mailing.delete_message %}
-                            <a class="btn btn-delete btn-sm" {% if not object_list %}disabled{% endif %}" href="{% url 'mailing:message_delete' message.pk %}" role="button">Удалить</a>
+                            <a class="btn btn-delete btn-sm" {% if not object_list %} disabled {% endif %} href="{% url 'mailing:message_delete' message.pk %}" role="button">Удалить</a>
                             {% endif %}
                         </div>
                     </div>
