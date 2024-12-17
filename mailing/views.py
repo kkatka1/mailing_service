@@ -87,27 +87,17 @@ class MailingUpdateView(UpdateView):
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
 
-    class MailingUpdateView(UpdateView):
-        model = Mailing
-        form_class = MailingForm
-        success_url = reverse_lazy("mailing:mailing_list")
 
-        def get_form_class(self):
-            """
-            Возвращает форму в зависимости от роли пользователя.
-            """
-            mailing = get_object_or_404(Mailing, id=self.kwargs["pk"])
-            user = self.request.user
 
-            # Проверяем, что пользователь имеет доступ к этой рассылке
-            if not user.has_perm('mailing.can_view_all_mailing') and mailing.user != user:
-                raise PermissionDenied
-
-            # Если разрешения позволяют, выбираем нужную форму
-            if user.has_perm('mailing.can_view_all_mailing') and user.has_perm('mailing.can_disable_mailing'):
-                return MailingManagerForm  # Используем другую форму для менеджеров
-
-            return MailingForm
+    def get_form_class(self):
+        """
+        Возвращает форму в зависимости от роли пользователя.
+        """
+        mailing = get_object_or_404(Mailing, id=self.kwargs["pk"])
+        user = self.request.user
+        if user.has_perm('mailing.can_view_all_mailing') and user.has_perm('mailing.can_disable_mailing'):
+            return MailingManagerForm
+        raise PermissionDenied
 
 
 class MailingDeleteView(DeleteView):

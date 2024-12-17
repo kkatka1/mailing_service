@@ -30,7 +30,6 @@ class MailingForm(forms.ModelForm):
 
 
 
-
 class MailingManagerForm(forms.ModelForm):
     class Meta:
         model = Mailing
