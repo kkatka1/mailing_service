@@ -2,19 +2,13 @@ from lib2to3.fixes.fix_input import context
 from random import sample
 
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import (
-    ListView,
-    CreateView,
-    DetailView,
-    DeleteView,
-    UpdateView,
-    TemplateView,
-)
+from django.views.generic import (ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from mailing.forms import MailingForm, MessageForm, ClientForm
+from mailing.forms import MailingForm, ClientForm, MailingManagerForm
 from mailing.models import Client, Mailing, Message
+from django.core.exceptions import PermissionDenied
 
 from blog.models import Post
 
@@ -71,7 +65,7 @@ class MailingCreateView(CreateView, LoginRequiredMixin):
     def get_context_data(self, **kwargs):
         '''При создании рассылки показывает только клиентов пользователя'''
         context = super().get_context_data(**kwargs)
-        context['clients'] = Client.objects.filter(user=self.request.user)
+        context['client_list'] = Client.objects.filter(user=self.request.user)
         return context
 
     def get_form_kwargs(self):
@@ -93,6 +87,28 @@ class MailingUpdateView(UpdateView):
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
 
+    class MailingUpdateView(UpdateView):
+        model = Mailing
+        form_class = MailingForm
+        success_url = reverse_lazy("mailing:mailing_list")
+
+        def get_form_class(self):
+            """
+            Возвращает форму в зависимости от роли пользователя.
+            """
+            mailing = get_object_or_404(Mailing, id=self.kwargs["pk"])
+            user = self.request.user
+
+            # Проверяем, что пользователь имеет доступ к этой рассылке
+            if not user.has_perm('mailing.can_view_all_mailing') and mailing.user != user:
+                raise PermissionDenied
+
+            # Если разрешения позволяют, выбираем нужную форму
+            if user.has_perm('mailing.can_view_all_mailing') and user.has_perm('mailing.can_disable_mailing'):
+                return MailingManagerForm  # Используем другую форму для менеджеров
+
+            return MailingForm
+
 
 class MailingDeleteView(DeleteView):
     model = Mailing
@@ -109,11 +125,11 @@ class MessageListView(LoginRequiredMixin, ListView):
 
 class MessageCreateView(CreateView):
     model = Message
-    form_class = MessageForm
     # permission_required = 'mailing.add_message'
     success_url = reverse_lazy(
         "mailing:message_list",
     )
+    fields = ("topic", "body",)
 
     def form_valid(self, form):
         '''Привязываем сообщение к пользователю'''
@@ -130,7 +146,8 @@ class MessageCreateView(CreateView):
 
 class MessageUpdateView(UpdateView):
     model = Message
-    form_class = MessageForm
+    fields = ("topic", "body",)
+
 
     def get_success_url(self):
         return reverse_lazy("mailing:message_list")
@@ -157,7 +174,8 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         '''Возвращает список клиентов текущего пользователя, отсортированный по дате добавления'''
-        return Client.objects.filter(user=self.request.user).order_by('-created_at')
+        return Client.objects.filter(user=self.request.user)
+
 
 
 class ClientDetailView(DetailView):

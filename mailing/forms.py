@@ -2,6 +2,8 @@ from django import forms
 from .models import Mailing, Client, Message
 
 
+
+
 class StyleFormMixin:
 
     def __init__(self, *args, **kwargs):
@@ -13,36 +15,38 @@ class StyleFormMixin:
 class MailingForm(forms.ModelForm):
     class Meta:
         model = Mailing
-        fields = ['message', 'scheduled_at', 'periodicity', 'clients','status']
+        fields = ['message_id', 'date_of_first_dispatch', 'periodicity', 'client_list']
         widgets = {
-            'scheduled_at': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'clients': forms.CheckboxSelectMultiple(),  # Используем чекбоксы для клиентов
+            'date_of_first_dispatch': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'client_list': forms.CheckboxSelectMultiple(),
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)  # Получаем текущего пользователя
-        super(MailingForm, self).__init__(*args, **kwargs)
-        if user is not None:
-            # Фильтруем клиентов по текущему пользователю
-            self.fields['clients'].queryset = Client.objects.filter(user=user)
-            # Фильтруем сообщения по текущему пользователю
-            self.fields['message'].queryset = Message.objects.filter(user=user)
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['client_list'].queryset = Client.objects.filter(user=user)
+            self.fields['message_id'].queryset = Message.objects.filter(user=user)
+
+
 
 
 class MailingManagerForm(forms.ModelForm):
     class Meta:
         model = Mailing
-        fields = ['status']
+        fields = ['status', 'date_of_first_dispatch', 'periodicity', 'message_id']
 
     def __init__(self, *args, **kwargs):
-        super(MailingForm, self).__init__(*args, **kwargs)
-        # Применяем класс к полям, кроме clients
-        for field_name in self.fields:
-            if field_name != 'clients':
-                self.fields[field_name].widget.attrs.update({'class': 'form-control'})
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['message_id'].queryset = Message.objects.filter(user=user)
+
 
 
 class ClientForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Client
-        fields = ('last_name', 'first_name', 'middle_name', 'email',)
+        fields = ('fullname', 'email',)
+
+

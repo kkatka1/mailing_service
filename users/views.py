@@ -42,25 +42,3 @@ def email_verification(email, token):
     return redirect(reverse("users:login"))
 
 
-# def change_password(request):
-#    if request.method == 'POST':
-#        email = request.POST.get('email')
-#        try:
-#            user = User.objects.get(email=email, is_active=True)
-#        except User.DoesNotExist:
-#            return render(request,'users/change_password.html', {'error': 'Пользователь не найден'})
-#        else:
-#            new_password = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-#            user.password = make_password((new_password))
-#            user.save()
-#            send_mail(
-#                subject='Восстановление пароля',
-#                message=f'Ваш новый пароль: {new_password}',
-#                from_email=EMAIL_HOST_USER,
-#                recipient_list=[user.email],
-#               fail_silently=False
-#            )
-#            return redirect(reverse('users:login'))
-#    return render(request, 'users/change_password.html')
-
-#

@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 
 from users.models import User
@@ -7,15 +9,13 @@ NULLABLE = {"blank": True, "null": True}
 
 User = get_user_model()
 
+
 class Client(models.Model):
     """Модель Клиент"""
 
     fullname = models.CharField(max_length=150, verbose_name="ФИО")
     email = models.EmailField(unique=False, verbose_name="Электронная почта")
-    phone = models.CharField(max_length=15, unique=True)
     comment = models.TextField(max_length=100, verbose_name="Комментарий", null=True)
-    country = models.CharField(max_length=50, verbose_name="Страна", null=True)
-    timezone = models.CharField(max_length=50, verbose_name="Время", null=True)
     user = models.ForeignKey(
         User,
         help_text="Укажите владельца",
@@ -58,24 +58,35 @@ class Message(models.Model):
 class Mailing(models.Model):
     """Модель Рассылки"""
 
+    STATUS_CHOICES = [
+        ('created', 'Создана'),
+        ('started', 'Запущена'),
+        ('completed', 'Завершена'),
+    ]
+
+    PERIOD_CHOICES = [
+        ('day', 'Раз в день'),
+        ('week', 'Раз в неделю'),
+        ('month', 'Раз в месяц'),
+    ]
+
+
     date_of_first_dispatch = models.DateTimeField(
-        verbose_name="Дата первой отправки рассылки", **NULLABLE
+        verbose_name="Дата первой отправки рассылки",
+        **NULLABLE
     )
+
     periodicity = models.CharField(
-        max_length=1,
-        choices=[
-            ("1", "Один раз в день"),
-            ("2", "Один раз в неделю"),
-            ("3", "Один раз в месяц"),
-        ],
-        verbose_name="Периодичность отправки",
-        help_text="Выберите периодичность отправки",
-        **NULLABLE,
+        max_length=10,
+        choices=PERIOD_CHOICES,
+        verbose_name='Переодичность',
     )
+
     status = models.CharField(
-        max_length=20,
-        choices=[("A", "Создана"), ("B", "Запущена"), ("C", "Завершена")],
-        verbose_name="Статус рассылки",
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='created',
+        verbose_name='Статус',
     )
     created_at = models.DateTimeField(
         verbose_name="Дата создания рассылки", auto_now_add=True
@@ -96,7 +107,7 @@ class Mailing(models.Model):
         help_text="Выберите клиентов для рассылки",
         related_name="client",
     )
-    # client_list = models.ManyToManyField(Client, verbose_name='Клиенты', related_name='mailing_for_mailing')
+
     user = models.ForeignKey(
         User,
         **NULLABLE,
@@ -119,37 +130,42 @@ class Mailing(models.Model):
         verbose_name_plural = "Рассылки"
         ordering = ("created_at",)
         permissions = [
-            ("Can_is_published", "Can is published"),
+            ("can_view_all_mailing", "Can view all mailing"),
+            ("can_disable_mailing", "Can disable mailing"),
         ]
 
 
 class Attempt(models.Model):
-    """Модель Логов"""
+        '''Модель попытки рассылки'''
+        STATUS_CHOICES = [
+            ('success', 'Успешно'),
+            ('failure', 'Неуспешно'),
+        ]
 
-    date_last_attempt = models.DateTimeField(
-        verbose_name="Дата последней попытки", auto_now=True
-    )
-    status = models.BooleanField(verbose_name="Статус рассылки")
-    server_response = models.CharField(max_length=50, verbose_name="Ответ сервера")
-    mailing_id = models.ForeignKey(
-        Mailing,
-        on_delete=models.CASCADE,
-        verbose_name="Рассылка",
-        help_text="Выберите рассылку",
-        related_name="Attempt",
-    )
-    user = models.ForeignKey(
-        User,
-        **NULLABLE,
-        verbose_name="Владелец",
-        help_text="Введите владельца",
-        on_delete=models.SET_NULL,
-    )
+        mailing = models.ForeignKey(
+            Mailing,
+            on_delete=models.CASCADE,
+            verbose_name='Рассылка',
+            related_name='attempts'
+        )
+        attempt_date = models.DateTimeField(
+            default=timezone.now,
+            verbose_name='Дата и время попытки'
+        )
+        status = models.CharField(
+            max_length=10,
+            choices=STATUS_CHOICES,
+            verbose_name='Статус попытки'
+        )
+        server_response = models.TextField(
+            verbose_name='Ответ почтового сервера',
+            blank=True,
+            null=True
+        )
 
-    def __str__(self):
-        return f"{self.date_last_attempt}"
+        def __str__(self):
+            return f'Рассылка {self.mailing.id} - {self.get_status_display()} - {self.attempt_date}'
 
-    class Meta:
-        verbose_name = "Попытка"
-        verbose_name_plural = "Попытки"
-        ordering = ("status",)
+        class Meta:
+            verbose_name = 'Попытка рассылки'
+            verbose_name_plural = 'Попытки рассылок'

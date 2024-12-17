@@ -14,5 +14,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", UserCreateView.as_view(), name="register"),
     path("email-confirm/<str:token>/", email_verification, name="email-confirm"),
-    # path('change_password/',views.change_password,name="change_password"),
+
 ]

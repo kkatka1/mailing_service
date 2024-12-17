@@ -9,10 +9,7 @@ class ClientAdmin(admin.ModelAdmin):
         "id",
         "fullname",
         "email",
-        "phone",
         "comment",
-        "country",
-        "timezone",
     )
     list_filter = (
         "fullname",
@@ -56,13 +53,13 @@ class MailingAdmin(admin.ModelAdmin):
 class AttemptAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "date_last_attempt",
+        "attempt_date",
         "status",
         "server_response",
         "mailing_id",
     )
     list_filter = ("status",)
     search_fields = (
-        "date_last_attempt",
+        "attempt_date",
         "server_response",
     )

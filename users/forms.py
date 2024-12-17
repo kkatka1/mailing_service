@@ -11,6 +11,13 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
         fields = ("email", "password1", "password2")
 
 
+class UserManagerForm(forms.ModelForm):
+    class Meta:
+        model = User
+        # Указываем поля, которые можно редактировать
+        fields = ['email', 'phone', 'country', 'avatar']
+
+
 class UserChangePasswordForm(forms.Form):
     need_generate = forms.BooleanField()
     email = forms.EmailField(required=True)
