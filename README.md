@@ -43,9 +43,13 @@
 git clone git@github.com:kkatka1/mailing_service.git
 cd mailing_service
 
-### 2. Создать и активировать виртуальное окружение
+## 2. Создать и активировать виртуальное окружение
 
-Создайте виртуальное окружение с помощью venv и активируйте его:
+Создайте виртуальное окружение с помощью `venv` и активируйте его:
+
+### Для Linux/macOS:
+
+```bash
 python3 -m venv env
 source env/bin/activate
 
@@ -56,7 +60,6 @@ python -m venv env
 3. Установить зависимости
 
 Установите зависимости из файла requirements.txt:
-
 pip install -r requirements.txt
 
 4. Запустить миграции
@@ -68,31 +71,26 @@ python3 manage.py migrate
 5. Создать суперпользователя
 
 Для создания суперпользователя выполните команду:
-
 python3 manage.py createsuperuser
 
 6. Загрузить фикстуры
 
 Для загрузки тестовых данных в базу данных выполните команду:
-
 python3 manage.py loaddata data.json
 
 7. Создать группу
 
 Для создания группы пользователей выполните команду:
-
 python3 manage.py create_groupe
 
 8. Создать менеджера и контент-менеджера
 
 Для создания менеджера и контент-менеджера выполните команду:
-
 python3 manage.py create_staff
 
 9. Запустить сервер
 
 Для запуска сервера выполните команду:
-
 python3 manage.py runserver
 
 Сервер будет доступен по адресу: http://127.0.0.1:8000
