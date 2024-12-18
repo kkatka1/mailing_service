@@ -1,0 +1,21 @@
+{% extends 'mailing/home.html' %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 text-center mb-4">
+        {% if object %}Изменение сообщения{% else %}Создание сообщения{% endif %}
+    </h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">
+                        {% if object %}Сохранить{% else %}Создать{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

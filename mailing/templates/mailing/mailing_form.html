@@ -1,0 +1,38 @@
+{% extends "mailing/base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="h-100 p-5 bg-body-tertiary rounded-3">
+            <h2>{% if object %}Редактировать рассылку{% else %}Добавить рассылку{% endif %}</h2>
+            <p>Создавайте сообщения и выбирайте клиентов для рассылки.</p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="button" id="select-all" class="btn btn-secondary mt-3">Выбрать всех</button>
+                <button type="button" id="deselect-all" class="btn btn-secondary mt-3">Сбросить выбор</button>
+
+                <button type="submit" class="btn btn-primary mt-3">
+                    {% if object %}Редактировать{% else %}Добавить рассылку{% endif %}
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('select-all').onclick = function() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = true;
+        });
+    };
+
+    document.getElementById('deselect-all').onclick = function() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    };
+</script>
+{% endblock %}

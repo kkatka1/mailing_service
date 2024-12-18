@@ -1,0 +1,41 @@
+{% extends 'mailing/home.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="container py-5">
+        <h1 class="display-4 text-center mb-4">Сообщения</h1>
+
+        <div class="text-center mb-4">
+            <a class="btn btn-message btn-sm" href="{% url 'mailing:message_create' %}" role="button">Создать
+                сообщение</a>
+        </div>
+        {% if object_list %}
+            <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+                {% for message in object_list %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ message.title }}</h5>
+                                <p class="card-text">{{ message.body|slice:":100" }}</p>
+                                <div class="d-flex justify-content-center">
+                                    <div class="btn-group">
+
+                                        <a class="btn btn-transparent btn-sm"
+                                           href="{% url 'mailing:message_update' message.pk %}"
+                                           role="button">Изменить</a>
+
+                                        <a class="btn btn-delete btn-sm" {% if not object_list %} disabled {% endif %}
+                                           href="{% url 'mailing:message_delete' message.pk %}"
+                                           role="button">Удалить</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Нет сообщений для отображения.</p>
+        {% endif %}
+    </div>
+{% endblock %}

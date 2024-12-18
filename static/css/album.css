@@ -1,0 +1,113 @@
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  text-transform: uppercase;  /* делает текст заглавными буквами */
+  color: green;  /* устанавливает зеленый цвет текста */
+  font-weight: bold;  /* делает текст жирным */
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.navbar-nav .nav-link {
+    font-size: 18px; /* Увеличиваем размер шрифта */
+    font-weight: bold; /* Делаем текст жирным */
+    padding: 10px 15px; /* Добавляем внутренние отступы */
+    color: #f8f9fa; /* Цвет текста */
+    transition: color 0.3s, background-color 0.3s; /* Эффекты при наведении */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #343a40; /* Цвет текста при наведении */
+    background-color: #f8f9fa; /* Фон при наведении */
+    border-radius: 5px; /* Закругленные углы */
+}
+
+.navbar-nav .active > .nav-link {
+    color: #ffffff; /* Цвет активного элемента */
+    background-color: #007bff; /* Фон активного элемента */
+    border-radius: 5px; /* Закругленные углы */
+}
+
+.section-title {
+  text-align: center;
+  color: #ff5733; /* Замените на желаемый цвет */
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+.btn-transparent {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid #007bff; /* Добавляем цветную рамку */
+  color: #007bff; /* Цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы для фона и текста */
+}
+
+.btn-transparent:hover {
+  background-color: #007bff; /* Цвет фона при наведении */
+  color: white; /* Цвет текста при наведении */
+}
+
+.btn-delete {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid red; /* Красная рамка */
+  color: red; /* Красный цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+.btn-delete:hover {
+  background-color: red; /* Красный фон при наведении */
+  color: white; /* Белый цвет текста при наведении */
+}
+
+.btn-message {
+  background-color: transparent; /* Бесцветный фон */
+  border: 2px solid green; /* Зеленая рамка */
+  color: green; /* Зеленый цвет текста */
+  padding: 10px 20px; /* Отступы */
+  font-size: 16px; /* Размер шрифта */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  transition: background-color 0.3s, color 0.3s; /* Плавные переходы */
+}
+
+.btn-message:hover {
+  background-color: green; /* Зеленый фон при наведении */
+  color: white; /* Белый цвет текста при наведении */
+}

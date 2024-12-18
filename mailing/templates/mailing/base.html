@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>{% if title %}{{ title }} - {% endif %}</title>
+
+    <!-- Bootstrap core CSS -->
+     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/album.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+  {% include 'includes/inc_menu.html' %}
+
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">
+                {% block page_title %} сервис управления рассылками{% endblock %}
+            </h1>
+          <p class="lead text-muted"> Отправляйте рассылки, автоматизируйте маркетинг и увеличивайте продажи.</p>
+          <p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+
+            {% block content %}
+            {% endblock %}
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+          <p>&copy; 2024 - {% now 'Y' %}</p>
+      </div>
+    </footer>
+

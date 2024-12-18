@@ -1,0 +1,57 @@
+{% extends 'mailing/home.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 text-center mb-4">Детали рассылки</h1>
+    {% if mailing %}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm p-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Название рассылки:</strong> {{ mailing.message_id.topic }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Дата первой отправки:</strong> {{ mailing.date_of_first_dispatch }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Периодичность:</strong> {{ mailing.get_periodicity_display }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Статус:</strong> {{ mailing.get_status_display }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Дата создания:</strong> {{ mailing.created_at }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Дата изменения:</strong> {{ mailing.update_at }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Клиенты:</strong>
+                            <ul>
+                                {% for client in mailing.client_list.all %}
+                                    <li>{{ client.fullname }} ({{ client.email }})</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Попытки рассылки:</strong>
+                            <ul>
+                                {% for attempt in mailing.attempts.all %}
+                                    <li>{{ attempt.attempt_date }} - {{ attempt.get_status_display }} - {{ attempt.server_response }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'mailing:mailing_list' %}" class="btn btn-secondary">Назад к списку рассылок</a>
+                        <a href="{% url 'mailing:mailing_update' mailing.pk %}" class="btn btn-primary">Изменить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center text-danger fs-4 mt-5">Рассылок нет</p>
+    {% endif %}
+</div>
+{% endblock %}
