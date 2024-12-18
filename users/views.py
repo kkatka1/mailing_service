@@ -1,16 +1,15 @@
 import secrets
 import random
 import string
-
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
-
+from django.views.generic import CreateView, ListView
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
 from users.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class UserCreateView(CreateView):
@@ -40,5 +39,13 @@ def email_verification(email, token):
     user.is_active = True
     user.save()
     return redirect(reverse("users:login"))
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    permission_required = 'users.can_change_user_status'
+
+    def get_queryset(self):
+        return User.objects.all().order_by('-date_joined')
 
 

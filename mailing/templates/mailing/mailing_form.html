@@ -6,7 +6,6 @@
         <div class="h-100 p-5 bg-body-tertiary rounded-3">
             <h2>{% if object %}Редактировать рассылку{% else %}Добавить рассылку{% endif %}</h2>
             <p>Создавайте сообщения и выбирайте клиентов для рассылки.</p>
-
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -21,7 +20,6 @@
         </div>
     </div>
 </div>
-
 <script>
     document.getElementById('select-all').onclick = function() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');

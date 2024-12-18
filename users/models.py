@@ -1,7 +1,5 @@
 from django.db import models
-
 import token
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -44,7 +42,6 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
         permissions = [
             ('can_change_user_status', "Can change user status"),
-            ("can_block_user", "Can block user"),
         ]
 
     def __str__(self):

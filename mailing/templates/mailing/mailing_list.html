@@ -18,18 +18,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for mailing in mailings %}
+            {% for mailing in mailings %}            
             <tr>
                 <td>{{ mailing.date_of_first_dispatch }}</td>
                 <td>{{ mailing.get_status_display }}</td>
                 <td>{{ mailing.message_id }}</td>
-                <td>
+                <td>            
                     <a href="{% url 'mailing:mailing_detail' mailing.pk %}" class="btn btn-transparent btn-sm">Посмотреть</a>
                     <a href="{% url 'mailing:mailing_update' mailing.pk %}" class="btn btn-transparent btn-sm">Изменить</a>
                     <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-delete btn-sm">Удалить</a>
                     
                 </td>
-            </tr>
+            </tr>             
             {% endfor %}
         </tbody>
     </table>

@@ -2,8 +2,6 @@ from django import forms
 from .models import Mailing, Client, Message
 
 
-
-
 class StyleFormMixin:
 
     def __init__(self, *args, **kwargs):
@@ -29,18 +27,10 @@ class MailingForm(forms.ModelForm):
             self.fields['message_id'].queryset = Message.objects.filter(user=user)
 
 
-
 class MailingManagerForm(forms.ModelForm):
     class Meta:
         model = Mailing
         fields = ['status', 'date_of_first_dispatch', 'periodicity', 'message_id']
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-        if user:
-            self.fields['message_id'].queryset = Message.objects.filter(user=user)
-
 
 
 class ClientForm(StyleFormMixin, forms.ModelForm):

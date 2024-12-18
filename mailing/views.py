@@ -1,6 +1,5 @@
 from lib2to3.fixes.fix_input import context
 from random import sample
-
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -9,14 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from mailing.forms import MailingForm, ClientForm, MailingManagerForm
 from mailing.models import Client, Mailing, Message
 from django.core.exceptions import PermissionDenied
-
 from blog.models import Post
-
 from django.http import HttpResponseForbidden
-
-from django.http import HttpResponseForbidden
-
-
 
 
 class HomePageView(LoginRequiredMixin, TemplateView):
@@ -48,15 +41,15 @@ class MailingListView(LoginRequiredMixin, ListView):
     context_object_name = "mailings"
 
     def get_queryset(self):
-        return Mailing.objects.filter(user=self.request.user).order_by('-created_at')
+        return Mailing.objects.filter(user=self.request.user)
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
     context_object_name = "mailing"
 
 
-class MailingCreateView(CreateView, LoginRequiredMixin):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     form_class = MailingForm
     template_name = "mailing/mailing_form.html"
@@ -82,25 +75,22 @@ class MailingCreateView(CreateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
 
-
-
     def get_form_class(self):
-        """
-        Возвращает форму в зависимости от роли пользователя.
-        """
-        mailing = get_object_or_404(Mailing, id=self.kwargs["pk"])
-        user = self.request.user
-        if user.has_perm('mailing.can_view_all_mailing') and user.has_perm('mailing.can_disable_mailing'):
-            return MailingManagerForm
-        raise PermissionDenied
+        '''Возвращаем форму на основе прав пользователя'''
+        if self.request.user == self.get_object().user:
+            return self.form_class  # Обычная форма для владельца
+        elif self.request.user.has_perm('mailing.set_published'):
+            return MailingManagerForm  # Форма для пользователей с правом 'set_published'
+        else:
+            raise PermissionDenied("У вас нет прав для редактирования этой рассылки")
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     success_url = reverse_lazy("mailing:mailing_list")
 
@@ -113,7 +103,7 @@ class MessageListView(LoginRequiredMixin, ListView):
         return Message.objects.filter(user=self.request.user)
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     # permission_required = 'mailing.add_message'
     success_url = reverse_lazy(
@@ -126,15 +116,8 @@ class MessageCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    # def form_valid(self, form):
-    #   mailing = form.save()
-    #  user = self.request.user
-    # mailing.owner = user
-    # mailing.save()
-    # return super().form_valid(form)
 
-
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin,UpdateView):
     model = Message
     fields = ("topic", "body",)
 
@@ -143,18 +126,15 @@ class MessageUpdateView(UpdateView):
         return reverse_lazy("mailing:message_list")
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
 
     def get_success_url(self):
         return reverse_lazy("mailing:message_list")
 
 
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message
-
-
-# Клиенты
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -167,28 +147,16 @@ class ClientListView(LoginRequiredMixin, ListView):
         return Client.objects.filter(user=self.request.user)
 
 
-
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
     context_object_name = "client"
 
 
-#   def get_context_data(self, **kwargs):
-#      context = super().get_context_data(**kwargs)
-#     print(context['clients'])
-#    return context
-
-
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("mailing:client_list")
 
-    #  def form_valid(self, form):
-    ##    user = self.request.user
-    #   mailing.owner = user
-    #  mailing.save()
-    # return super().form_valid(form)
 
     def form_valid(self, form):
         '''Привязываем клиента к пользователю'''
@@ -196,12 +164,16 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("mailing:client_list")
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy("mailing:client_list")
+
+
+
+

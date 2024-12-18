@@ -126,14 +126,11 @@ class Mailing(models.Model):
         return ", ".join([client.email for client in self.client_list.all()])
 
     class Meta:
-        verbose_name = "Рассылка"
-        verbose_name_plural = "Рассылки"
-        ordering = ("created_at",)
+        verbose_name = 'рассылка'
+        verbose_name_plural = 'рассылки'
         permissions = [
-            ("can_view_all_mailing", "Can view all mailing"),
-            ("can_disable_mailing", "Can disable mailing"),
+            ('can_change_mailing_status', 'Can change mailing status'),
         ]
-
 
 class Attempt(models.Model):
         '''Модель попытки рассылки'''

@@ -1,0 +1,53 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="h-100 p-5 bg-body-tertiary rounded-3">
+                <h2>Все пользователи</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Почта</th>
+                        <th scope="col">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in user_list %}
+                        <tr>
+                            <td class="fw-semibold">
+                            </td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% if user.groups.first.name != "manager" and user.groups.first.name != "admin" %}
+                                    <div class="table-actions">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            {% csrf_token %}
+                                            {% if user.is_active %}
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    Заблокировать
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                                    Разблокировать
+                                                </button>
+                                            {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Нет пользователей.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -9,7 +9,6 @@
             {% if item.owner == user or user.is_superuser %}
             <div class="col">
                 <div class="card shadow-sm">
-
                     <div class="card-body">
                         <p class="card-text">Рассылка: {{ item.mailing_id.message_id.title }}</p>
                         <p class="card-text">Дата последней попытки: {{ item.date_last_attempt }}</p>

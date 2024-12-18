@@ -1,5 +1,4 @@
 from config.settings import EMAIL_HOST_USER
-
 from django.utils import timezone
 from django.core.mail import send_mail
 from mailing.models import Mailing, Attempt
@@ -15,17 +14,16 @@ def send_newsletters():
     for mailing in mailings:
         # Логика отправки рассылки
         try:
-            # Здесь вы должны указать, как отправить сообщения
-            # Например, если у вас есть список клиентов
+            # Перебираем клиентов и отправляем письма
             for client in mailing.clients.all():
                 send_mail(
-                    mailing.message.title,
-                    mailing.message.message,
+                    mailing.message_id.topic,
+                    mailing.message_id.body,
                     EMAIL_HOST_USER,
                     [client.email],
                 )
 
-            # Запись попытки рассылки
+            # Запись попытки рассылки как успешной
             Attempt.objects.create(
                 newsletter=mailing,
                 status='success'
@@ -35,7 +33,7 @@ def send_newsletters():
             mailing.last_run = now
             mailing.save()
 
-            # Проверяем периодичность
+            # Обработка периодичности рассылки
             if mailing.periodicity == 'day':
                 mailing.scheduled_at += timezone.timedelta(days=1)
             elif mailing.periodicity == 'week':
@@ -43,12 +41,12 @@ def send_newsletters():
             elif mailing.periodicity == 'month':
                 mailing.scheduled_at += timezone.timedelta(weeks=4)
 
-            # Если запланирована новая отправка, сохраняем статус как 'started'
-            mailing.status = 'started'  # можно оставить или изменить статус по вашему желанию
+            # Обновление статуса рассылки
+            mailing.status = 'started'
             mailing.save()
 
         except Exception as e:
-            # Если произошла ошибка, записываем это в попытку рассылки
+            # Если произошла ошибка, записываем это как неуспешную попытку
             Attempt.objects.create(
                 newsletter=mailing,
                 status='failure',

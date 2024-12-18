@@ -28,15 +28,15 @@
                     <td>
                         <div class="btn-group">
                             {% if user.is_authenticated %}
-                                {% if perms.mailing.client_detail %}
+                                
                                     <a class="btn btn-transparent" href="{% url 'mailing:client_detail' client.pk %}">Посмотреть</a>
-                                {% endif %}
-                                {% if perms.mailing.change_client %}
+                                
+                               
                                     <a class="btn btn-transparent" href="{% url 'mailing:client_update' client.pk %}">Изменить</a>
-                                {% endif %}
-                                {% if perms.mailing.delete_client %}
+                                
+                                
                                     <a class="btn btn-delete btn-sm" href="{% url 'mailing:client_delete' client.pk %}">Удалить</a>
-                                {% endif %}
+                                
                             {% endif %}
                         </div>
                     </td>

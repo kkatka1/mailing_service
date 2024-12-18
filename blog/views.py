@@ -14,6 +14,7 @@ from django.views.generic import (
 )
 
 from blog.models import Post
+from blog.services import get_posts_from_cache
 
 
 # Create your views here.
@@ -37,6 +38,9 @@ class PostCreateView(CreateView):
 
 class PostListView(ListView):
     model = Post
+
+    def get_queryset(self):
+        return get_posts_from_cache()
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -62,7 +66,7 @@ class PostUpdateView(UpdateView):
         "created_at",
         "image",
     )
-    # success_url = reverse_lazy("blog:list")
+
 
     def form_valid(self, form):
         if form.is_valid():
