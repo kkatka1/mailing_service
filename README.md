@@ -43,11 +43,11 @@
 git clone git@github.com:kkatka1/mailing_service.git
 cd mailing_service
 
-## 2. Создать и активировать виртуальное окружение
+2. Создать и активировать виртуальное окружение
 
 Создайте виртуальное окружение с помощью `venv` и активируйте его:
 
-### Для Linux/macOS:
+Для Linux/macOS:
 
 ```bash
 python3 -m venv env
